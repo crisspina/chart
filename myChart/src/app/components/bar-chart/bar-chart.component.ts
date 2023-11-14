@@ -4,38 +4,63 @@ import { Chart } from 'chart.js/auto';
 @Component({
   selector: 'app-bar-chart',
   templateUrl: './bar-chart.component.html',
-  styleUrls: ['./bar-chart.component.scss']
+  styleUrls: ['./bar-chart.component.scss'],
 })
 export class BarChartComponent {
+  myBarChart: any = [];
+
  
-  myBarChart: any = []; //สร้างตัวแปรมาเก็บค่าก่อน
+  label: Array<string> = ['January', 'February', 'March', 'April', 'May'];
 
-  data:Array<number> = [65, 59, 80, 81, 56]
-  label: Array<string> = ['January', 'February', 'March', 'April', 'May']
+  data: Array<number> = [65, -59, 80, 81, 56];
+  data2: Array<number> = [20, 99, 72, 65, -9];
+  data3: Array<number> = [-13, 11, 59, 73, -51];
 
-    ngOnInit(){
-      this.myBarChart = new Chart('myBarChart', { 
-          // สร้าง object และใช้ชื่อ id myBarChart ในการอ้างอิงเพื่อนำมาเเสดงผล
-          type: 'bar',  // กำหนดประเภทของ chart 
-          data: {       // ระบุข้อมูลต่างๆ ภายในแผนภูมิของเรา
-              labels: this.label ,  // แสดงป้ายชื่อสำหรับจุดข้อมูลบนแกน x
-              datasets: [{  // กำหนดค่าชุดข้อมูลที่ต้องการแสดงบนแผนภูมิของเรา และกำหนด Style ของชุดข้อมูล
-                label: 'Monthly Sales',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-                data: this.data , 
-              }]
+  createData() {
+    this.myBarChart = new Chart('myBarChart', {
+      // type: 'bar',
+      data: {
+        labels: this.label,
+        datasets: [
+          { // dataset ชุดที่ 1
+            type: 'bar',
+            label: '2022',
+            data: this.data,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
           },
-          options:{
-            scales: { //กำหนดรายละเอียดข้อมูลแกน X และแกน Y
-              y: {
-                  beginAtZero: true // เป็นการกำหนดค่าข้องแนวแกน Y เริ่มต้นที่ 0
-              }
-            },
-          
-
+          { // dataset ชุดที่ 2
+            type: 'line',
+            label: '2023',
+            data: this.data2,
+            backgroundColor: 'red',
+            borderColor: 'red',
+            borderWidth: 2, 
+          },
+          { // dataset ชุดที่ 3
+            type: 'line',
+            label: '2024',
+            data: this.data3,
+            backgroundColor: 'green',
+            borderColor: 'green',
           }
-      })
-    }
+        ],
+      },
+      options: {
+        responsive: true, //set responsive
+        plugins: {
+          title: {
+            display: true,
+            text: 'Demo-Bar chart'
+          }
+        },
+        
+      },
+    });
+  }
+
+  ngOnInit() {
+    this.createData();
+  }
 }
